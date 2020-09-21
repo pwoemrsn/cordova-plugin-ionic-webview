@@ -129,6 +129,13 @@
     return self;
 }
 
+- (void)webView:(WKWebView *)webView
+        didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
+        completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition disposition, NSURLCredential *credential))completionHandler {
+    SecTrustRef serverTrust = challenge.protectionSpace.serverTrust;
+    completionHandler(NSURLSessionAuthChallengeUseCredential, [NSURLCredential credentialForTrust:serverTrust]);
+}
+
 -(NSString *) getStartPath {
     NSString * wwwPath = [[NSBundle mainBundle] pathForResource:@"www" ofType: nil];
 
